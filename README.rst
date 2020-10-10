@@ -27,23 +27,24 @@
 
 当无参数时，此命令会显示程序整体的帮助信息；当后缀一个命令名时，将显示对应命令的帮助信息。
 
-3. 下载课程表（JSON 格式）::
+3. 下载课程表（当前学期， JSON 格式）::
 
     courses-json filename
 
-将 **当前学期** 的课程表内容下载为 JSON 文件至 filename 所指定的路径。
+- ``filename`` 存储文件路径及名称，默认值 ``syllabus.json`` 。
 
-4. 下载课程表（Ical 格式）::
+4. 下载课程表（当前学期， Ical 格式）::
 
     courses-ical filename startdate
 
-将 **当前学期** 的课程表内容下载为 ICalendar 日志格式至 filename 所指定的路径。
+- ``filename`` 存储文件路径及名称，默认值 ``syllabus.ics`` 。
+- ``startdate`` 学期开始时间，格式应为 ``YYYY-MM-DD`` ，默认值 ``2020-08-30`` 。
 
-5. 下载全部成绩（JSON 格式）::
+5. 下载全部成绩（所有学期全部科目， JSON 格式）::
 
     assignments-json filename
 
-将 **所有学期的全部科目** 的成绩以 JSON 的格式下载至 filename 指定的路径。
+- ``filename`` 存储文件路径及名称，默认值 ``grade.json`` 。
 
 安装
 ====

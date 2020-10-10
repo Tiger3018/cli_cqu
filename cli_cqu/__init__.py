@@ -15,7 +15,7 @@ from .data.schedule import New2020Schedule
 from .util.calendar import make_ical
 from .login import Account
 
-__version__ = '0.5.0'
+__version__ = '0.5.1'
 
 __all__ = ("App", )
 
@@ -26,22 +26,33 @@ def repl_parser():
 
     courses_json = cmd.add_parser("courses-json",
                                   description="获取本学期课程表，保存为 JSON 格式")
-    courses_json.add_argument("filename", help="另存为路径（后缀 .json）")
+    courses_json.add_argument("filename",
+                                  help = "另存为路径（默认值 syllabus.json）", 
+                                  default = "syllabus.json", 
+                                  nargs = "?")
 
     courses_ical = cmd.add_parser("courses-ical",
                                   description="获取本学期课程表，格式化为 ICalendar 日历")
-    courses_ical.add_argument("filename", help="另存为路径（后缀 .ical）")
+    courses_ical.add_argument("filename",
+                                  help = "另存为路径（默认值 syllabus.ics）", 
+                                  default = "syllabus.ics",
+                                  nargs = "?")
     courses_ical.add_argument("startdate",
-                              help="yyyy-mm-dd 形式的学期开始日期，如 2020-08-31")
+                                  help = "yyyy-mm-dd 形式的学期开始日期 （默认值 2020-08-30）",
+                                  default = "2020-08-30",
+                                  nargs = "?")
 
     assignments_json = cmd.add_parser("assignments-json", description="获取全部成绩")
-    assignments_json.add_argument("filename", help="另存为路径（后缀 .json）")
+    assignments_json.add_argument("filename",
+                                  help = "另存为路径（默认值 grade.json）",
+                                  default = "grade.json",
+                                  nargs = "?")
 
     cmd_help = cmd.add_parser("help", description="显示某命令的帮助文档")
     cmd_help.add_argument("command_name",
-                          help="要查看帮助的命令",
-                          nargs="?",
-                          default=None)
+                                  help="要查看帮助的命令",
+                                  nargs="?",
+                                  default=None)
 
     cmd_exit = cmd.add_parser("exit", description="退出")
 
@@ -57,10 +68,10 @@ class App:
     def mainloop(self):
         """命令行界面，解析指令执行对应功能"""
         while True:
-            cmdline = re.split(r" +", input("cli cqu> ").strip())
+            cmdline = re.split(r" +", input("CLI-CQU> ").strip())
 
             try:
-                ns = self._cmdparser.parse_args(cmdline)
+                ns = self._cmdparser.parse_args(cmdline) # <= to check
             except:
                 continue
 
@@ -77,6 +88,8 @@ class App:
             self.courses_ical(ns.filename, ns.startdate)
         elif ns.command == "assignments-json":
             self.assignemnts_json(ns.filename)
+        else:
+            self.help_command() #useless
 
     def help_command(self, command: Optional[str]):
         if command is None:
